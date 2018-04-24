@@ -10,8 +10,7 @@ var gulp          = require('gulp'),
 		notify        = require("gulp-notify"),
 		del           = require('del'),
 		imagemin      = require('gulp-imagemin'),
-		cache         = require('gulp-cache'),
-		purge         = require('gulp-css-purge');
+		cache         = require('gulp-cache');
 
 gulp.task('browser-sync', function() {
 	browsersync({
@@ -28,7 +27,6 @@ gulp.task('sass', function() {
 	.pipe(rename({ suffix: '.min', prefix : '' }))
 	.pipe(autoprefixer(['last 15 versions']))
 	.pipe(cleancss( {level: { 1: { specialComments: 0 } } })) // Opt., comment out when debugging
-	.pipe(purge())
 	.pipe(gulp.dest('app/css'))
 	.pipe(browsersync.reload( {stream: true} ))
 });
