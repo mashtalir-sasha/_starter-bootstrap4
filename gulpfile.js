@@ -1,5 +1,4 @@
 var gulp          = require('gulp'),
-		gutil         = require('gulp-util' ),
 		sass          = require('gulp-sass'),
 		browsersync   = require('browser-sync'),
 		concat        = require('gulp-concat'),
@@ -7,13 +6,11 @@ var gulp          = require('gulp'),
 		cleancss      = require('gulp-clean-css'),
 		rename        = require('gulp-rename'),
 		autoprefixer  = require('gulp-autoprefixer'),
-		notify        = require("gulp-notify"),
-		del           = require('del'),
-		imagemin      = require('gulp-imagemin');
+		notify        = require("gulp-notify");
 
 gulp.task('browser-sync', function() {
 	browsersync({
-		proxy: 'starter', // Прописать название папки в Опенсервере
+		proxy: 'site', // Прописать название папки в Опенсервере
 		notify: false,
 		// tunnel: true,
 		// tunnel: "projectmane", //Demonstration page: http://projectmane.localtunnel.me
@@ -47,38 +44,8 @@ gulp.task('js', function() {
 gulp.task('watch', ['sass', 'js', 'browser-sync'], function() {
 	gulp.watch('app/sass/**/*.sass', ['sass']);
 	gulp.watch(['libs/**/*.js', 'app/js/common.js'], ['js']);
-	gulp.watch('app/*.html', browsersync.reload)
+	gulp.watch('app/*.html', browsersync.reload);
+	gulp.watch('app/*.php', browsersync.reload);
 });
-
-gulp.task('imagemin', function() {
-	return gulp.src('app/img/**/*')
-	.pipe(imagemin()) // Cache Images
-	.pipe(gulp.dest('dist/img')); 
-});
-
-gulp.task('build', ['removedist', 'sass', 'js', 'imagemin'], function() {
-
-	var buildFiles = gulp.src([
-		'app/*.html',
-		'app/**/*.php',
-		'app/.htaccess'
-		]).pipe(gulp.dest('dist'));
-
-	var buildCss = gulp.src([
-		'app/css/main.min.css',
-		'app/css/*.min.css'
-		]).pipe(gulp.dest('dist/css'));
-
-	var buildJs = gulp.src([
-		'app/js/scripts.min.js',
-		]).pipe(gulp.dest('dist/js'));
-
-	var buildFonts = gulp.src([
-		'app/fonts/**/*',
-		]).pipe(gulp.dest('dist/fonts'));
-
-});
-
-gulp.task('removedist', function() { return del.sync('dist'); });
 
 gulp.task('default', ['watch']);
