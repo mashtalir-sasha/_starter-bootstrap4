@@ -28,7 +28,7 @@ $(function() {
 	});
 
 	// Формирование полей и заголовков формы в мод окне
-	$('.modal').click(function(){
+	$('.open').click(function(){
 		var ttl = $(this).data('title');
 		var subTtl = $(this).data('subtitle');
 		var text = $(this).data('text');
@@ -64,7 +64,7 @@ $(function() {
 	});
 
 	// Инит фансибокса
-	$('.fancybox, .modal').fancybox({
+	$('.fancybox, .open').fancybox({
 		margin: 0,
 		padding: 0
 	});
@@ -76,5 +76,50 @@ $(function() {
 		}, 300);
 		e.preventDefault();
 	});
+
+	// Функция для анимации
+	$(".scroll").each(function () {
+		var block = $(this);
+		$(window).scroll(function() {
+			if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+				var top = block.offset().top-400;
+			} else {
+				var top = block.offset().top+400;
+			}
+			var bottom = block.height()+top;
+			top = top - $(window).height();
+			var scroll_top = $(this).scrollTop();
+			if ((scroll_top > top) && (scroll_top < bottom)) {
+				if (!block.hasClass("animated")) {
+					block.addClass("animated");
+					block.trigger('animatedIn');
+				}
+			}
+		});
+	});
+
+	// Инит слайдера Slick
+	/*$('.reviews-slider').slick({
+		slidesToShow: 4,
+		slidesToScroll: 1,
+		dots: true,
+		arrows: true,
+		appendDots: $('.reviews-dots'),
+		centerMode: true,
+		responsive: [
+			{
+				breakpoint: 1200,
+				settings: {
+					slidesToShow: 3,
+				}
+			},
+			{
+				breakpoint: 991,
+				settings: {
+					slidesToShow: 2,
+				}
+			}
+		]
+	});*/
 
 });
